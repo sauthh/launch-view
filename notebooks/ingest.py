@@ -9,9 +9,9 @@ def get_Data(appid):
     Fetches game details from the Steam store API for a given app ID
 
     Args:
-        appid (int): the steam app ID of the game
+        appid (int): steam app ID of the game
     Returns:
-        (dict): game details if sucessfull, else none if invalid
+        data (dict): game details if sucessfull, else none if invalid
     """
     steam_url = f"https://store.steampowered.com/api/appdetails?appids={appid}"
     steam_response = requests.get(steam_url)
