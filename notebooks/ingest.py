@@ -18,7 +18,7 @@ def get_Data(appid):
     data = steam_response.json()
 
     # Steam API returns JSON as strings not int
-    if data[str(appid)]["success"]:
+    if data and data[str(appid)]["success"]:
         # Pause between calls to stay within Steam's rate limit
         time.sleep(0.5)
         return data[str(appid)]["data"] 
