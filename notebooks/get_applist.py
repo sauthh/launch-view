@@ -9,6 +9,7 @@ API_KEY = os.getenv("STEAM_API_KEY")
 
 APP_LIST_PATH = "data/raw/app_list.csv"
 
+
 def get_all_apps(appid):
     """
     Fetches and stores app ID and name from the Steam store API

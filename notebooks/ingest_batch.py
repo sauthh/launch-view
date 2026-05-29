@@ -11,6 +11,7 @@ GAMES_RAW_PATH = "data/raw/games_raw.csv"
 GAME_KEYS = ["steam_appid", "name", "type", "is_free", "developers", "publishers", "price_overview", "genres", "categories", "release_date", 
              "recommendations", "metacritic", "platforms"]
 
+
 def add_games(df_apps, file_exists):
     """
     Depending on if file exists, creates new file and adds info or appends info from the next appid
@@ -18,12 +19,7 @@ def add_games(df_apps, file_exists):
     Args:
         df_apps (DataFrame): dataframe of all apps
         file_exists (bool): whether csv file exists or not
-    Returns:
-        game_data (dict): dictionary of game info
     """
-    # Holds data for all games, used to convert to dataframe later
-    game_data = {}
-
     if file_exists:
         # Find where to resume from by locating the last saved appid in the app list
         curr_games_raw = pd.read_csv(GAMES_RAW_PATH)
@@ -34,6 +30,7 @@ def add_games(df_apps, file_exists):
         start_idx = -1
     
     # Limit iterations to save in batches
+    games_count = 0
     attempts = 1000
     for i in range(attempts):
         start_idx += 1
@@ -56,14 +53,18 @@ def add_games(df_apps, file_exists):
             continue
 
         # Dictionary comprehension to extract only the required fields
-        game_data[df_apps.iloc[start_idx, 0]] = {key:curr_game.get(key) for key in GAME_KEYS}
+        game_df = pd.DataFrame([{key:curr_game.get(key) for key in GAME_KEYS}])
 
-        if len(game_data) % 50 == 0:
-            print(f"Fetched {len(game_data)} so far...")
+        # Adds to file directly for safe measures and to save space
+        game_df.to_csv(GAMES_RAW_PATH, mode="a", index=False, header=(games_count == 0 and not file_exists))
+
+        games_count += 1
+
+        if games_count % 50 == 0:
+            print(f"Fetched {games_count} so far...")
     
-    print(f"Completed: {len(game_data)} games added from {attempts} attempts")
+    print(f"Completed: {games_count} games added from {attempts} attempts")
 
-    return game_data
 
 # Pagination state - loop until Steam confirms no more results
 have_more_results = True
@@ -79,5 +80,5 @@ df_apps = pd.read_csv(APP_LIST_PATH)
 
 # Persist raw data locally to allow re-fetching for other games
 file_exists = os.path.exists(GAMES_RAW_PATH)
-df = pd.DataFrame.from_dict(add_games(df_apps, file_exists), orient="index")
-df.to_csv(GAMES_RAW_PATH, mode="a", index=False, header=(not file_exists))
+
+add_games(df_apps, file_exists)
