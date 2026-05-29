@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 
 # API Key stored in .env to avoid exposing credentials in the repo
 load_dotenv()
-api_key = os.getenv("STEAM_API_KEY")
+API_KEY = os.getenv("STEAM_API_KEY")
+
+APP_LIST_PATH = "data/raw/app_list.csv"
 
 def get_all_apps(appid):
     """
@@ -14,23 +16,32 @@ def get_all_apps(appid):
     Args:
         appid (int): Steam app ID of the last game
     Returns:
-        have_more_results(bool), last_appid(int): whether more results exist, last returned app ID
+        have_more_results (bool): whether more results exist
+        last_appid (int): last returned app ID
     """
+
+    # Using params dict instead of URL string to avoid repetition and improve readability
+    params = {
+        "key" : API_KEY,
+        "include_dlc" : "false",
+        "include_software" : "false",
+        "include_videos" : "false",
+        "include_hardware" : "false",
+        "max_results" : 50000
+    }
+
+    steam_url = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
+
     # Include last_appid only when paginating, omit for first request
     if appid:
-        steam_url = f"https://api.steampowered.com/IStoreService/GetAppList/v1/?key={api_key}&have_description_language=english&include_dlc=false&include_software=false&include_videos=false&include_hardware=false&last_appid={appid}&max_results=50000"
-    else:
-        steam_url = f"https://api.steampowered.com/IStoreService/GetAppList/v1/?key={api_key}&have_description_language=english&include_dlc=false&include_software=false&include_videos=false&include_hardware=false&max_results=50000"
-    steam_response = requests.get(steam_url)
+        params["last_appid"] = appid
+    steam_response = requests.get(steam_url, params=params)
     data = steam_response.json()
 
     print(f"Completed: {len(data["response"]["apps"])} apps were retrieved")
 
     # Saves to csv to avoid re-fetching later
     df = pd.DataFrame(data["response"]["apps"])
-    if os.path.exists("data/raw/app_list.csv"):
-        df[["appid", "name"]].to_csv("data/raw/app_list.csv", mode="a", index=False, header=False)
-    else:
-        df[["appid", "name"]].to_csv("data/raw/app_list.csv", mode="a", index=False)
+    df[["appid", "name"]].to_csv(APP_LIST_PATH, mode="a", index=False, header=(not os.path.exists(APP_LIST_PATH)))
 
     return (data["response"].get("have_more_results", False), data["response"].get("last_appid", False))
