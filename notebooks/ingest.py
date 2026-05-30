@@ -15,7 +15,12 @@ def get_data(appid):
     """
     steam_url = f"https://store.steampowered.com/api/appdetails?appids={appid}"
     steam_response = requests.get(steam_url)
-    response_data = steam_response.json()
+
+    # Steam occassionally returns emmpty or invalid responses
+    try:
+        response_data = steam_response.json()
+    except requests.exceptions.JSONDecodeError:
+        response_data = None
 
     # Steam API returns JSON as strings not int
     if response_data and response_data.get(str(appid)) and response_data.get(str(appid)).get("success"):
