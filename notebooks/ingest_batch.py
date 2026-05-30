@@ -31,9 +31,14 @@ def add_games(df_apps, file_exists):
     
     # Limit iterations to save in batches
     games_count = 0
-    attempts = 1000
+    attempts = 5000
     for i in range(attempts):
         start_idx += 1
+
+        # Prevents index error if all apps in the app list has been processed
+        if start_idx >= len(df_apps):
+            break
+
         curr_game = get_data(df_apps.iloc[start_idx, 0])
 
         # Some app IDs are invalid - skip them
