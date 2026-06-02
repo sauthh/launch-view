@@ -8,7 +8,7 @@ APP_LIST_PATH = "data/raw/app_list.csv"
 GAMES_RAW_PATH = "data/raw/games_raw.csv"
 
 # Only retaining fields relevant to launch strategy analysis - drops description, images, legal text, etc
-GAME_KEYS = ["steam_appid", "name", "type", "is_free", "developers", "publishers", "price_overview", "genres", "categories", "release_date", 
+GAME_KEYS = ["steam_appid", "name", "is_free", "developers", "publishers", "price_overview", "genres", "categories", "release_date", 
              "recommendations", "metacritic", "platforms"]
 
 
@@ -45,12 +45,8 @@ def add_games(df_apps, file_exists):
         if curr_game is None:
             continue
 
-        # Only include games
+        # type is used for filtering only - not stored since all saved records are games
         if curr_game.get("type") != "game":
-            continue
-
-        # Skip games with fewer than 50 reviews - insufficient data for meaningful analysis
-        if curr_game.get("recommendations", {}).get("total", 0) < 50:
             continue
 
         # Game cannot be unreleased
