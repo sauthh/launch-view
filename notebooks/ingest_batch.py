@@ -8,8 +8,7 @@ APP_LIST_PATH = "data/raw/app_list.csv"
 GAMES_RAW_PATH = "data/raw/games_raw.csv"
 
 # Only retaining fields relevant to launch strategy analysis - drops description, images, legal text, etc
-GAME_KEYS = ["steam_appid", "name", "is_free", "developers", "publishers", "price_overview", "genres", "categories", "release_date", 
-             "recommendations", "metacritic", "platforms"]
+GAME_KEYS = ["steam_appid", "name", "is_free", "developers", "publishers", "price_overview", "genres", "categories", "release_date", "recommendations", "metacritic"]
 
 
 def add_games(df_apps, file_exists):
