@@ -13,9 +13,11 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 
 # Load main games table with explicit column types to ensure correct PostgreSQL schema
 df_games = pd.read_csv(GAMES_CLEAN_PATH)
+df_games = df_games.drop(columns=["genres"])
 
 # Convert to datetime so SQLAlchemy maps it to DATE type in PostgreSQL
 df_games["release_date"] = pd.to_datetime(df_games["release_date"])
+
 df_games.to_sql("games", engine, if_exists="replace", index=False, dtype={"steam_appid": types.Integer(), 
                                                                           "name": types.Text(), 
                                                                           "developer_count": types.Integer(), 
