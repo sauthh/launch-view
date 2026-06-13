@@ -10,6 +10,7 @@ What genre, price point, and launch window allows publishers the best chance of 
 ## Data Sources
 
 ## Project Structure
+```
 ├── LICENSE
 ├── README.md
 ├── dashboards
@@ -21,16 +22,10 @@ What genre, price point, and launch window allows publishers the best chance of 
 │       └── Steam_Market_Overview.png
 ├── data
 │   ├── processed
-│   │   └── games_clean.csv
 │   └── raw
-│       ├── app_list.csv
-│       └── games_raw.csv
 ├── docs
 │   └── steam_launch_strategy_memo.pdf
 ├── notebooks
-│   ├── __pycache__
-│   │   ├── get_applist.cpython-313.pyc
-│   │   └── ingest.cpython-313.pyc
 │   ├── clean.ipynb
 │   ├── get_applist.py
 │   ├── ingest.py
@@ -40,6 +35,7 @@ What genre, price point, and launch window allows publishers the best chance of 
 └── sql
     └── analyses
         └── analysis.sql
+```
 
 ## How to Run
 
