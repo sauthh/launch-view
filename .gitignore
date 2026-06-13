@@ -219,4 +219,5 @@ __marimo__/
 
 # Project specific
 data/raw/
+data/processed/
 .DS_Store

@@ -11,29 +11,25 @@ What genre, price point, and launch window allows publishers the best chance of 
 
 ## Project Structure
 launch-view/
-├──dashboards/
-|  ├──screenshots/
-|  |  ├──Critical_Reception.png
-|  |  ├──Launch_Strategy.png
-|  |  └──Steam_Market_Overview.png
-|  ├──dashboards.pbix
-|  └──dashboard.pdf
-├──data/
-|  └──processed/
-|     └──games_clean.csv
-├──notebooks/
-|  ├──clean.ipynb
-|  ├──get_applist.py
-|  ├──ingest.py
-|  ├──ingest_batch.py
-|  └──load_db.py
-├──sql/
-|  └──analyses/
-|     └──analysis.sql
-├──.gitignore
-├──LICENSE
-├──README.md
-├──requirements.txt
+├── notebooks/
+│   ├── ingest.py
+│   ├── get_applist.py
+│   ├── ingest_batch.py
+│   └── clean.ipynb
+├── sql/
+│   └── analyses/
+│       └── analysis.sql
+├── data/
+│   ├── raw/          # gitignored
+│   └── processed/    # gitignored
+├── dashboards/
+│   ├── dashboard.pbix
+│   ├── dashboard.pdf
+│   └── screenshots/
+├── docs/
+│   └── steam_launch_strategy_memo.pdf
+├── requirements.txt
+└── README.md
 
 ## How to Run
 
