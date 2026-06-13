@@ -10,26 +10,36 @@ What genre, price point, and launch window allows publishers the best chance of 
 ## Data Sources
 
 ## Project Structure
-launch-view/
-├── notebooks/
-│   ├── ingest.py
-│   ├── get_applist.py
-│   ├── ingest_batch.py
-│   └── clean.ipynb
-├── sql/
-│   └── analyses/
-│       └── analysis.sql
-├── data/
-│   ├── raw/          # gitignored
-│   └── processed/    # gitignored
-├── dashboards/
+├── LICENSE
+├── README.md
+├── dashboards
 │   ├── dashboard.pbix
 │   ├── dashboard.pdf
-│   └── screenshots/
-├── docs/
+│   └── screenshots
+│       ├── Critical_Reception.png
+│       ├── Launch_Strategy.png
+│       └── Steam_Market_Overview.png
+├── data
+│   ├── processed
+│   │   └── games_clean.csv
+│   └── raw
+│       ├── app_list.csv
+│       └── games_raw.csv
+├── docs
 │   └── steam_launch_strategy_memo.pdf
+├── notebooks
+│   ├── __pycache__
+│   │   ├── get_applist.cpython-313.pyc
+│   │   └── ingest.cpython-313.pyc
+│   ├── clean.ipynb
+│   ├── get_applist.py
+│   ├── ingest.py
+│   ├── ingest_batch.py
+│   └── load_db.py
 ├── requirements.txt
-└── README.md
+└── sql
+    └── analyses
+        └── analysis.sql
 
 ## How to Run
 
